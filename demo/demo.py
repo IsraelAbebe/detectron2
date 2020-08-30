@@ -146,14 +146,16 @@ if __name__ == "__main__":
                 isColor=True,
             )
         assert os.path.isfile(args.video_input)
-        for vis_frame in tqdm.tqdm(demo.run_on_video(video), total=num_frames):
-            if args.output:
-                output_file.write(vis_frame)
-            else:
-                cv2.namedWindow(basename, cv2.WINDOW_NORMAL)
-                cv2.imshow(basename, vis_frame)
-                if cv2.waitKey(1) == 27:
-                    break  # esc to quit
+        with open("log.txt", "a") as f:
+            for vis_frame,predictions in tqdm.tqdm(demo.run_on_video(video), total=num_frames):
+                f.write(str(predictions)+ '\n')
+                if args.output:
+                    output_file.write(vis_frame)
+                else:
+                    cv2.namedWindow(basename, cv2.WINDOW_NORMAL)
+                    cv2.imshow(basename, vis_frame)
+                    if cv2.waitKey(1) == 27:
+                        break  # esc to quit
         video.release()
         if args.output:
             output_file.release()
