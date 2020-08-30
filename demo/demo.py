@@ -6,6 +6,7 @@ import os
 import time
 import cv2
 import tqdm
+import csv
 
 from detectron2.config import get_cfg
 from detectron2.data.detection_utils import read_image
@@ -146,9 +147,11 @@ if __name__ == "__main__":
                 isColor=True,
             )
         assert os.path.isfile(args.video_input)
-        with open("log.txt", "a") as f:
+        with open('log.csv','w') as f:
+            writer=csv.writer(f, delimiter=',',lineterminator='\n',)
             for vis_frame,predictions in tqdm.tqdm(demo.run_on_video(video), total=num_frames):
-                f.write(str(predictions)+ '\n')
+                print(predictions.pred_classes.numpy(),predictions.pred_boxes.tensor.numpy())
+                writer.writerow([predictions.pred_classes.numpy(),predictions.pred_boxes.tensor.numpy()])
                 if args.output:
                     output_file.write(vis_frame)
                 else:
