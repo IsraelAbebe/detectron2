@@ -151,13 +151,12 @@ if __name__ == "__main__":
         with open('log.csv','w') as f:
             writer=csv.writer(f, delimiter=',',lineterminator='\n',)
             for vis_frame,predictions in tqdm.tqdm(demo.run_on_video(video), total=num_frames):
-                if len(predictions.pred_classes.numpy())> 0 and len(np.where(predictions.pred_classes.numpy()==32)) > 0:
-                    print(len(np.where(predictions.pred_classes.numpy()==32)),'ball Found  ')
-                    print(np.where(predictions.pred_classes.numpy()==32))
-                    idx = np.where(predictions.pred_classes.numpy()==32)
-                    print(predictions.pred_classes.numpy()[idx])
+                # print(len(np.where(predictions.pred_classes.numpy()==32)[0]),'ball Found  ')
+                # print(np.where(predictions.pred_classes.numpy()==32))
+                idx = np.where(predictions.pred_classes.numpy()==32)
+                # print(predictions.pred_boxes.tensor.numpy()[idx])
                 # print(predictions.pred_classes.numpy(),predictions.pred_boxes.tensor.numpy())
-                writer.writerow([predictions.pred_classes.numpy(),predictions.pred_boxes.tensor.numpy()])
+                writer.writerow([len(np.where(predictions.pred_classes.numpy()==32)[0]),predictions.pred_boxes.tensor.numpy()[idx]])
                 if args.output:
                     output_file.write(vis_frame)
                 else:

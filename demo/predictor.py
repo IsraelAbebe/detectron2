@@ -103,7 +103,7 @@ class VisualizationDemo(object):
 
             # Converts Matplotlib RGB format to OpenCV BGR format
             vis_frame = cv2.cvtColor(vis_frame.get_image(), cv2.COLOR_RGB2BGR)
-            print('---------------',predictions.pred_classes)
+            # print('---------------',predictions.pred_classes)
             return vis_frame,predictions
 
         frame_gen = self._frame_from_video(video)
